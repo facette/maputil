@@ -71,6 +71,16 @@ func (m Map) GetInt(key string, fallback int) (int, error) {
 	return val.(int), err
 }
 
+// GetInterface returns the interface value associated with a key.
+func (m Map) GetInterface(key string, fallback interface{}) (interface{}, error) {
+	val, ok := m[key]
+	if !ok {
+		val = fallback
+	}
+
+	return val, nil
+}
+
 // GetMap returns the map value associated with a key.
 func (m Map) GetMap(key string, fallback Map) (Map, error) {
 	val, err := m.getKey(reflect.Map, key, fallback)
