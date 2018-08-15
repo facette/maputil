@@ -106,11 +106,15 @@ func (m Map) GetString(key, fallback string) (string, error) {
 
 // GetStringSlice returns the string value associated with a key.
 func (m Map) GetStringSlice(key string, fallback []string) ([]string, error) {
-	out := []string{}
+	var out []string
 
 	val, err := m.getKey(reflect.Slice, key, fallback)
 
 	rv := reflect.ValueOf(val)
+	if !rv.IsValid() {
+		return nil, err
+	}
+
 	count := rv.Len()
 	for i := 0; i < count; i++ {
 		out = append(out, fmt.Sprintf("%v", rv.Index(i).Interface()))
